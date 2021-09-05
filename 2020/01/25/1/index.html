@@ -8,7 +8,7 @@
 <h2 id="递归解题三部曲"><a href="#递归解题三部曲" class="headerlink" title="递归解题三部曲"></a><strong>递归解题三部曲</strong></h2><p>何为递归？程序反复调用自身即是递归。</p>
 <p>我自己在刚开始解决递归问题的时候，总是会去纠结这一层函数做了什么，它调用自身后的下一层函数又做了什么…然后就会觉得实现一个递归解法十分复杂，根本就无从下手。</p>
 <p>相信很多初学者和我一样，这是一个思维误区，一定要走出来。既然递归是一个反复调用自身的过程，这就说明它每一级的功能都是一样的，<strong>因此我们只需要关注一级递归的解决过程即可。</strong></p>
-<p><img src="https://lylpic.oss-cn-beijing.aliyuncs.com/img/20200123231715.PNG" alt=""></p>
+<p><img src="https://z3.ax1x.com/2021/09/05/hWr1UK.png" alt=""></p>
 <p>如上图所示，我们需要关心的主要是以下三点：</p>
 <ol>
 <li>整个递归的终止条件。</li>
@@ -30,7 +30,7 @@
 <li><strong>找返回值。</strong> 应该返回什么？题目求的是树的最大深度，我们需要从每一级得到的信息自然是当前这一级对应的树的最大深度，因此我们的返回值应该是当前树的最大深度，这一步可以结合第三步来看。</li>
 <li><strong>本级递归应该做什么。</strong> 首先，还是强调要走出之前的思维误区，递归后我们眼里的树一定是这个样子的，看下图。此时就三个节点：root、root.left、root.right，其中根据第二步，root.left和root.right分别记录的是root的左右子树的最大深度。那么本级递归应该做什么就很明确了，自然就是在root的左右子树中选择较大的一个，再加上1就是以root为根的子树的最大深度了，然后再返回这个深度即可。</li>
 </ol>
-<p><img src="https://z3.ax1x.com/2021/09/05/hWr1UK.png" alt="hWr1UK.png"></p>
+<p><img src="https://z3.ax1x.com/2021/09/05/hWr724.png" alt=""></p>
 <p>具体Java代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//终止条件：当树为空时结束递归，并返回当前深度0</span></span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//root的左、右子树的最大深度</span></span><br><span class="line">        <span class="keyword">int</span> leftDepth = maxDepth(root.left);</span><br><span class="line">        <span class="keyword">int</span> rightDepth = maxDepth(root.right);</span><br><span class="line">        <span class="comment">//返回的是左右子树的最大深度+1</span></span><br><span class="line">        <span class="keyword">return</span> Math.max(leftDepth, rightDepth) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -46,7 +46,7 @@
 <li><strong>找返回值。</strong> 我们希望向上一级递归返回什么信息？由于我们的目的是两两交换链表中相邻的节点，因此自然希望交换给上一级递归的是已经完成交换处理，即已经处理好的链表。</li>
 <li><strong>本级递归应该做什么。</strong> 结合第二步，看下图！由于只考虑本级递归，所以这个链表在我们眼里其实也就三个节点：head、head.next、已处理完的链表部分。而本级递归的任务也就是交换这3个节点中的前两个节点，就很easy了。</li>
 </ol>
-<p><img src="https://lylpic.oss-cn-beijing.aliyuncs.com/img/20200123232642.PNG" alt=""></p>
+<p><img src="https://z3.ax1x.com/2021/09/05/hWrva6.png" alt=""></p>
 <p>附上Java代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">      	<span class="comment">//终止条件：链表只剩一个节点或者没节点了，没得交换了。返回的是已经处理好的链表</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">//一共三个节点:head, next, swapPairs(next.next)</span></span><br><span class="line">      	<span class="comment">//下面的任务便是交换这3个节点中的前两个节点</span></span><br><span class="line">        ListNode next = head.next;</span><br><span class="line">        head.next = swapPairs(next.next);</span><br><span class="line">        next.next = head;</span><br><span class="line">      	<span class="comment">//根据第二步：返回给上一级的是当前已经完成交换后，即处理好了的链表部分</span></span><br><span class="line">        <span class="keyword">return</span> next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
